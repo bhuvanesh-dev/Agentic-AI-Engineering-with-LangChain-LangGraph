@@ -18,9 +18,6 @@ Pillai, who started the Indian National Voluntary Corps on 31 July 1914, was ins
     chain = summary_template_prompt | llm
     response = chain.invoke(input={"information": infromation})
     print(response.content)
-#sent enviromnet variable for apikey in terminal export OLLAMA_API_KEY
-os.
-
 
 if __name__ == "__main__":
     main()
