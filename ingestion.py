@@ -32,7 +32,7 @@ def main():
 
     
     vector_store = Chroma(
-    collection_name="example_collection",
+    collection_name="mediumblog1_collection",
     embedding_function=embeddings,
     persist_directory="./chroma_langchain_db",
     )
@@ -43,11 +43,11 @@ def main():
 
     print("Ingestion process completed successfully.")
 
-    results = vector_store.similarity_search_by_vector(
-        embedding=embeddings.embed_query("How similarity search works?"), k=1
-    )
-    for doc in results:
-        print(f"* {doc.page_content} [{doc.metadata}]")
+    # results = vector_store.similarity_search_by_vector(
+    #     embedding=embeddings.embed_query("How similarity search works?"), k=1
+    # )
+    # for doc in results:
+    #     print(f"* {doc.page_content} [{doc.metadata}]")
 
 if __name__ == "__main__":
     main()
