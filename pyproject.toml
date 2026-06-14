@@ -13,6 +13,8 @@ dependencies = [
     "langchain-ollama>=1.1.0",
     "langchain-text-splitters>=1.1.2",
     "langchainhub>=0.1.21",
+    "markdown>=3.10.2",
     "milvus-lite>=3.0",
     "python-dotenv>=1.2.2",
+    "rich>=15.0.0",
 ]

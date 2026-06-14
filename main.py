@@ -2,6 +2,8 @@ from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings,ChatOllama
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
+from rich.markdown import Markdown
+from rich.console import Console
 
 embeddings = OllamaEmbeddings(
     model="qwen3-embedding:0.6b"
@@ -24,7 +26,6 @@ prompt_template = ChatPromptTemplate.from_template(
 
 llm = ChatOllama(model="qwen3.5:4b", temperature=0.7)
 
-
 def retrieval_without_lcel(question):
     # Retrieval without LCEL (LangChain Expression Language)
     # Retrieve relevant documents based on the question
@@ -36,8 +37,10 @@ def retrieval_without_lcel(question):
     # Generate a response using the LLM
     response = llm.invoke(message)
     print("Answer:")
-    print(response.content)
-
+    console = Console()
+    md = Markdown(response.content, code_theme="monokai", hyperlinks=True)
+    # Print with rich formatting
+    console.print(md)
 
 def main():
     print("Retrieving relevant documents...")
