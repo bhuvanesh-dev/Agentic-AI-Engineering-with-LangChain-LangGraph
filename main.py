@@ -4,6 +4,9 @@ from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
 from rich.markdown import Markdown
 from rich.console import Console
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+from operator import itemgetter
 
 embeddings = OllamaEmbeddings(
     model="qwen3-embedding:0.6b"
@@ -42,10 +45,25 @@ def retrieval_without_lcel(question):
     # Print with rich formatting
     console.print(md)
 
+def retrieval_with_lcel():
+    retrieval_chain = (
+            RunnablePassthrough.assign(context= itemgetter("question") | retriever | formatDocs)
+            | prompt_template
+            | llm
+            | StrOutputParser()
+        )
+    return retrieval_chain
+
 def main():
     print("Retrieving relevant documents...")
     question = "What is pinecone in machine learning?"
-    retrieval_without_lcel(question)
+    # retrieval_without_lcel(question)
+    retrieval_chain = retrieval_with_lcel()
+    response = retrieval_chain.invoke({"question": question})
+    print("Answer:")
+    console = Console()
+    md = Markdown(response, code_theme="monokai", hyperlinks=True)
+    console.print(md)
 
 def formatDocs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
